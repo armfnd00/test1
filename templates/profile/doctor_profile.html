@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+
+{% block title %}پروفایل پزشک - BeautyNet{% endblock %}
+
+{% block content %}
+<div class="profile-container doctor-profile">
+    <!-- Doctor Profile Header -->
+    <div class="profile-header">
+        <div class="container">
+            <div class="profile-info">
+                <div class="profile-avatar-section">
+                    <div class="avatar-wrapper">
+                        <img src="/static/images/default-avatar.png" alt="Doctor" class="profile-avatar" id="doctorAvatar">
+                        <div class="verified-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="profile-top">
+                        <div class="doctor-title">
+                            <h1 class="profile-username" id="doctorName">دکتر نام پزشک</h1>
+                            <span class="doctor-specialty" id="doctorSpecialty">متخصص پوست و مو</span>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" id="bookAppointmentBtn">
+                                <i class="fas fa-calendar-check"></i>
+                                رزرو نوبت
+                            </button>
+                            <button class="btn btn-outline" id="followDoctorBtn">
+                                <i class="fas fa-user-plus"></i>
+                                فالو کردن
+                            </button>
+                            <button class="btn btn-icon">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="doctorPostsCount">0</span>
+                            <span class="stat-label">پست</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="doctorFollowersCount">0</span>
+                            <span class="stat-label">فالوور</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="doctorReviewsCount">0</span>
+                            <span class="stat-label">نظر</span>
+                        </div>
+                        <div class="stat-item rating-stat">
+                            <span class="stat-value" id="doctorRating">0.0</span>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="doctor-info-cards">
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span class="info-label">آدرس مطب</span>
+                                <span class="info-value" id="doctorAddress">تهران، ولنجک</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <span class="info-label">تلفن</span>
+                                <span class="info-value" id="doctorPhone">021-12345678</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span class="info-label">ساعات کاری</span>
+                                <span class="info-value" id="doctorHours">شنبه تا چهارشنبه، 9-17</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div>
+                                <span class="info-label">هزینه ویزیت</span>
+                                <span class="info-value" id="doctorFee">500,000 تومان</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-bio">
+                        <p class="bio-text" id="doctorBio">بیوگرافی پزشک اینجا نمایش داده می‌شود</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Doctor Tabs -->
+    <div class="profile-tabs">
+        <div class="container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="posts">
+                    <i class="fas fa-th"></i>
+                    <span>پست‌ها</span>
+                </button>
+                <button class="tab-btn" data-tab="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>گالری</span>
+                </button>
+                <button class="tab-btn" data-tab="reviews">
+                    <i class="fas fa-star"></i>
+                    <span>نظرات</span>
+                </button>
+                <button class="tab-btn" data-tab="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>درباره</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Doctor Content -->
+    <div class="profile-content">
+        <div class="container">
+            <!-- Posts Tab -->
+            <div class="tab-content active" id="postsTab">
+                <div class="posts-grid" id="doctorPostsGrid">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Gallery Tab -->
+            <div class="tab-content" id="galleryTab">
+                <div class="gallery-grid" id="doctorGalleryGrid">
+                    <!-- Before/After images will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Reviews Tab -->
+            <div class="tab-content" id="reviewsTab">
+                <div class="reviews-section">
+                    <div class="reviews-summary">
+                        <div class="rating-overview">
+                            <div class="rating-score">
+                                <span class="score-value" id="overallRating">4.8</span>
+                                <div class="stars-large">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">بر اساس <span id="totalReviews">124</span> نظر</span>
+                            </div>
+                            
+                            <div class="rating-bars">
+                                <div class="rating-bar-item">
+                                    <span>5 ستاره</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-fill" style="width: 75%"></div>
+                                    </div>
+                                    <span>75%</span>
+                                </div>
+                                <div class="rating-bar-item">
+                                    <span>4 ستاره</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-fill" style="width: 15%"></div>
+                                    </div>
+                                    <span>15%</span>
+                                </div>
+                                <div class="rating-bar-item">
+                                    <span>3 ستاره</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-fill" style="width: 7%"></div>
+                                    </div>
+                                    <span>7%</span>
+                                </div>
+                                <div class="rating-bar-item">
+                                    <span>2 ستاره</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-fill" style="width: 2%"></div>
+                                    </div>
+                                    <span>2%</span>
+                                </div>
+                                <div class="rating-bar-item">
+                                    <span>1 ستاره</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-fill" style="width: 1%"></div>
+                                    </div>
+                                    <span>1%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" id="writeReviewBtn">
+                            <i class="fas fa-pen"></i>
+                            نوشتن نظر
+                        </button>
+                    </div>
+                    
+                    <div class="reviews-list" id="reviewsList">
+                        <!-- Reviews will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Tab -->
+            <div class="tab-content" id="aboutTab">
+                <div class="about-section">
+                    <div class="about-card">
+                        <h3><i class="fas fa-graduation-cap"></i> تحصیلات</h3>
+                        <ul id="doctorEducation">
+                            <li>دکترای تخصصی پوست از دانشگاه تهران</li>
+                            <li>فلوشیپ لیزر درمانی از آمریکا</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3><i class="fas fa-certificate"></i> گواهینامه‌ها</h3>
+                        <ul id="doctorCertificates">
+                            <li>عضو انجمن پزشکان پوست ایران</li>
+                            <li>گواهینامه بین‌المللی لیزر درمانی</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3><i class="fas fa-briefcase"></i> تخصص‌ها</h3>
+                        <div class="specialties-tags" id="doctorSpecialties">
+                            <span class="specialty-tag">لیزر موهای زائد</span>
+                            <span class="specialty-tag">جوانسازی پوست</span>
+                            <span class="specialty-tag">تزریق بوتاکس</span>
+                            <span class="specialty-tag">فیلر</span>
+                        </div>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3><i class="fas fa-map-marked-alt"></i> موقعیت مکانی</h3>
+                        <div class="map-container" id="doctorMap">
+                            <!-- Map will be loaded here -->
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <p>نقشه در اینجا نمایش داده می‌شود</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Book Appointment Modal -->
+<div class="modal" id="bookingModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>رزرو نوبت</h2>
+            <button class="modal-close" id="closeBookingModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="booking-calendar" id="bookingCalendar">
+                <!-- Calendar will be loaded here -->
+            </div>
+            
+            <div class="booking-times" id="bookingTimes">
+                <!-- Available times will be loaded here -->
+            </div>
+            
+            <div class="booking-summary">
+                <h3>خلاصه نوبت</h3>
+                <div class="summary-item">
+                    <span>پزشک:</span>
+                    <span id="summaryDoctor">دکتر نام پزشک</span>
+                </div>
+                <div class="summary-item">
+                    <span>تاریخ:</span>
+                    <span id="summaryDate">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>ساعت:</span>
+                    <span id="summaryTime">-</span>
+                </div>
+                <div class="summary-item total">
+                    <span>هزینه:</span>
+                    <span id="summaryFee">500,000 تومان</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelBookingBtn">انصراف</button>
+            <button class="btn btn-primary" id="confirmBookingBtn">تایید و پرداخت</button>
+        </div>
+    </div>
+</div>
+
+<!-- Write Review Modal -->
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+                <div class="modal-header">
+            <h2>ثبت نظر</h2>
+            <button class="modal-close" id="closeReviewModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="reviewForm" class="modal-body">
+            <div class="rating-select">
+                <label>امتیاز شما</label>
+                <div class="stars-select" id="reviewStars">
+                    <i class="far fa-star" data-value="1"></i>
+                    <i class="far fa-star" data-value="2"></i>
+                    <i class="far fa-star" data-value="3"></i>
+                    <i class="far fa-star" data-value="4"></i>
+                    <i class="far fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewText">متن نظر</label>
+                <textarea id="reviewText" class="form-control" rows="4" placeholder="تجربه خود را بنویسید..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="reviewPros">نکات مثبت</label>
+                <input type="text" id="reviewPros" class="form-control" placeholder="مثال: برخورد خوب، محیط تمیز">
+            </div>
+
+            <div class="form-group">
+                <label for="reviewCons">نکات قابل بهبود</label>
+                <input type="text" id="reviewCons" class="form-control" placeholder="اختیاری">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelReviewBtn">انصراف</button>
+                <button type="submit" class="btn btn-primary">ثبت نظر</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}

@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+
+{% block title %}پروفایل - BeautyNet{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="container">
+            <div class="profile-info">
+                <div class="profile-avatar-section">
+                    <div class="avatar-wrapper">
+                        <img src="/static/images/default-avatar.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+                        <button class="avatar-edit-btn" id="avatarEditBtn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="profile-top">
+                        <h1 class="profile-username" id="profileUsername">username</h1>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" id="editProfileBtn">
+                                <i class="fas fa-edit"></i>
+                                ویرایش پروفایل
+                            </button>
+                            <button class="btn btn-icon">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="postsCount">0</span>
+                            <span class="stat-label">پست</span>
+                        </div>
+                        <div class="stat-item" id="followersBtn">
+                            <span class="stat-value" id="followersCount">0</span>
+                            <span class="stat-label">فالوور</span>
+                        </div>
+                        <div class="stat-item" id="followingBtn">
+                            <span class="stat-value" id="followingCount">0</span>
+                            <span class="stat-label">فالوینگ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-bio">
+                        <h2 class="profile-fullname" id="profileFullname"></h2>
+                        <p class="bio-text" id="profileBio">بیوگرافی شما اینجا نمایش داده می‌شود</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Tabs -->
+    <div class="profile-tabs">
+        <div class="container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="posts">
+                    <i class="fas fa-th"></i>
+                    <span>پست‌ها</span>
+                </button>
+                <button class="tab-btn" data-tab="saved">
+                    <i class="fas fa-bookmark"></i>
+                    <span>ذخیره شده</span>
+                </button>
+                <button class="tab-btn" data-tab="tagged">
+                    <i class="fas fa-user-tag"></i>
+                    <span>تگ شده</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <div class="container">
+            <!-- Posts Tab -->
+            <div class="tab-content active" id="postsTab">
+                <div class="posts-grid" id="postsGrid">
+                    <!-- Posts will be loaded here -->
+                </div>
+                
+                <div class="empty-state" id="emptyPosts" style="display: none;">
+                    <i class="fas fa-camera"></i>
+                    <h3>هنوز پستی ندارید</h3>
+                    <p>اولین پست خود را به اشتراک بگذارید</p>
+                    <button class="btn btn-primary" id="createPostBtn">
+                        <i class="fas fa-plus"></i>
+                        ایجاد پست
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Saved Tab -->
+            <div class="tab-content" id="savedTab">
+                <div class="posts-grid" id="savedGrid">
+                    <!-- Saved posts will be loaded here -->
+                </div>
+                
+                <div class="empty-state">
+                    <i class="fas fa-bookmark"></i>
+                    <h3>هیچ پست ذخیره شده‌ای ندارید</h3>
+                    <p>پست‌های مورد علاقه خود را ذخیره کنید</p>
+                </div>
+            </div>
+            
+            <!-- Tagged Tab -->
+            <div class="tab-content" id="taggedTab">
+                <div class="posts-grid" id="taggedGrid">
+                    <!-- Tagged posts will be loaded here -->
+                </div>
+                
+                <div class="empty-state">
+                    <i class="fas fa-user-tag"></i>
+                    <h3>هیچ پستی شما را تگ نکرده</h3>
+                    <p>وقتی کسی شما را تگ کند، اینجا نمایش داده می‌شود</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal" id="editProfileModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>ویرایش پروفایل</h2>
+            <button class="modal-close" id="closeEditModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="editProfileForm" class="modal-body">
+            <div class="form-group">
+                <label for="editFullname">نام و نام خانوادگی</label>
+                <input type="text" id="editFullname" class="form-control" placeholder="نام کامل خود را وارد کنید">
+            </div>
+            
+            <div class="form-group">
+                <label for="editBio">بیوگرافی</label>
+                <textarea id="editBio" class="form-control" rows="4" placeholder="درباره خود بنویسید..."></textarea>
+                <small class="form-text"><span id="bioCount">0</span>/150 کاراکتر</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="editEmail">ایمیل</label>
+                <input type="email" id="editEmail" class="form-control" placeholder="example@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="editPhone">شماره موبایل</label>
+                <input type="tel" id="editPhone" class="form-control" placeholder="09123456789">
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelEditBtn">انصراف</button>
+                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Followers/Following Modal -->
+<div class="modal" id="followModal">
+    <div class="modal-content modal-sm">
+        <div class="modal-header">
+            <h2 id="followModalTitle">فالوورها</h2>
+            <button class="modal-close" id="closeFollowModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="جستجو..." id="followSearch">
+            </div>
+            
+            <div class="follow-list" id="followList">
+                <!-- Users will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Post Detail Modal -->
+<div class="modal" id="postModal">
+    <div class="modal-content modal-lg">
+        <button class="modal-close" id="closePostModal">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="post-detail">
+            <div class="post-image-section">
+                <img src="" alt="Post" id="postDetailImage">
+            </div>
+            
+            <div class="post-info-section">
+                <div class="post-header">
+                    <div class="post-author">
+                        <img src="/static/images/default-avatar.png" alt="Author" class="avatar-sm">
+                        <span class="author-name" id="postAuthorName">username</span>
+                    </div>
+                    <button class="btn-icon">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                
+                <div class="post-comments" id="postComments">
+                    <!-- Comments will be loaded here -->
+                </div>
+                
+                <div class="post-actions">
+                    <div class="action-buttons">
+                        <button class="btn-icon" id="likePostBtn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <button class="btn-icon">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </div>
+                
+                <div class="post-likes">
+                    <span id="postLikesCount">0</span> لایک
+                </div>
+                
+                <div class="post-time">
+                    <span id="postTime">2 ساعت پیش</span>
+                </div>
+                
+                <div class="post-comment-form">
+                    <input type="text" placeholder="نظر خود را بنویسید..." id="commentInput">
+                    <button class="btn-text" id="submitCommentBtn">ارسال</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}

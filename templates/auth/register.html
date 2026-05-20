@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block title %}ثبت‌نام - BeautyNet{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="fas fa-spa"></i>
+            <h1>ثبت‌نام در BeautyNet</h1>
+            <p>عضو جامعه پزشکی زیبایی شوید</p>
+        </div>
+        
+        <form id="registerForm" class="auth-form">
+            <div class="form-group">
+                <label for="userType">
+                    <i class="fas fa-user-tag"></i>
+                    نوع کاربری
+                </label>
+                <div class="user-type-selector">
+                    <label class="user-type-option">
+                        <input type="radio" name="user_type" value="patient" checked>
+                        <div class="option-content">
+                            <i class="fas fa-user"></i>
+                            <span>بیمار</span>
+                        </div>
+                    </label>
+                    <label class="user-type-option">
+                        <input type="radio" name="user_type" value="doctor">
+                        <div class="option-content">
+                            <i class="fas fa-user-md"></i>
+                            <span>پزشک</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                        نام کاربری
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-control" 
+                        placeholder="نام کاربری"
+                        required
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        ایمیل
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-control" 
+                        placeholder="example@email.com"
+                        required
+                    >
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">
+                    <i class="fas fa-phone"></i>
+                    شماره موبایل
+                </label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    class="form-control" 
+                    placeholder="09123456789"
+                    pattern="09[0-9]{9}"
+                    required
+                >
+                <small class="form-text">فرمت: 09xxxxxxxxx</small>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        رمز عبور
+                    </label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-control" 
+                            placeholder="حداقل 8 کاراکتر"
+                            minlength="8"
+                            required
+                        >
+                        <button type="button" class="toggle-password" data-target="password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="passwordConfirm">
+                        <i class="fas fa-lock"></i>
+                        تکرار رمز عبور
+                    </label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="passwordConfirm" 
+                            name="password_confirm" 
+                            class="form-control" 
+                            placeholder="تکرار رمز عبور"
+                            minlength="8"
+                            required
+                        >
+                        <button type="button" class="toggle-password" data-target="passwordConfirm">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="bio">
+                    <i class="fas fa-info-circle"></i>
+                    بیوگرافی (اختیاری)
+                </label>
+                <textarea 
+                    id="bio" 
+                    name="bio" 
+                    class="form-control" 
+                    rows="3" 
+                    placeholder="درباره خود بنویسید..."
+                ></textarea>
+            </div>
+            
+            <div class="form-group form-check">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    <a href="/terms">قوانین و مقررات</a> را مطالعه کرده و می‌پذیرم
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-user-plus"></i>
+                ثبت‌نام
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>قبلاً ثبت‌نام کرده‌اید؟ <a href="/auth/login">وارد شوید</a></p>
+        </div>
+    </div>
+    
+    <div class="auth-illustration">
+        <div class="illustration-content">
+            <i class="fas fa-rocket"></i>
+            <h2>سفر خود را شروع کنید</h2>
+            <ul>
+                <li><i class="fas fa-check"></i> ثبت‌نام رایگان و سریع</li>
+                <li><i class="fas fa-check"></i> دسترسی به تمام امکانات</li>
+                <li><i class="fas fa-check"></i> امنیت کامل اطلاعات</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Toggle password visibility
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const passwordInput = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Register form submission
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        
+        // Validate passwords match
+        if (data.password !== data.password_confirm) {
+            showToast('رمز عبور و تکرار آن مطابقت ندارند', 'error');
+            return;
+        }
+        
+        showLoading();
+        
+        try {
+            const response = await fetch('/api/accounts/auth/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user));
+                showToast('ثبت‌نام با موفقیت انجام شد', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = '/profile';
+                }, 1000);
+            } else {
+                const errors = Object.values(result).flat().join('\n');
+                showToast(errors || 'خطا در ثبت‌نام', 'error');
+            }
+        } catch (error) {
+            showToast('خطا در برقراری ارتباط با سرور', 'error');
+        } finally {
+            hideLoading();
+        }
+    });
+</script>
+{% endblock %}

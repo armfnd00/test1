@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}BeautyNet - خانه{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-spa"></i>
+                به BeautyNet خوش آمدید
+            </h1>
+            <p class="hero-subtitle">
+                شبکه اجتماعی تخصصی پزشکی زیبایی
+            </p>
+            <p class="hero-description">
+                بهترین پزشکان زیبایی را پیدا کنید، نوبت بگیرید و تجربیات خود را به اشتراک بگذارید
+            </p>
+            
+            <div class="hero-actions">
+                <a href="/auth/register" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus"></i>
+                    ثبت‌نام
+                </a>
+                <a href="/auth/login" class="btn btn-outline btn-lg">
+                    <i class="fas fa-sign-in-alt"></i>
+                    ورود
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-image">
+            <div class="floating-card card-1">
+                <i class="fas fa-user-md"></i>
+                <span>پزشکان متخصص</span>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-calendar-check"></i>
+                <span>نوبت‌دهی آنلاین</span>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-star"></i>
+                <span>نظرات واقعی</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2 class="section-title">امکانات BeautyNet</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>جستجوی پیشرفته</h3>
+                <p>پزشکان را بر اساس تخصص، شهر و امتیاز پیدا کنید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>نوبت‌دهی آنلاین</h3>
+                <p>به راحتی نوبت بگیرید و پرداخت کنید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <h3>گالری تصاویر</h3>
+                <p>نتایج کار پزشکان را مشاهده کنید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>نظرات و امتیازدهی</h3>
+                <p>تجربیات واقعی بیماران را بخوانید</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>نقشه و مسیریابی</h3>
+                <p>آدرس دقیق و مسیر دسترسی به کلینیک</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3>اعلان‌های هوشمند</h3>
+                <p>یادآوری نوبت و اطلاع‌رسانی به موقع</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <h2>آماده شروع هستید؟</h2>
+        <p>همین حالا عضو BeautyNet شوید</p>
+        <a href="/auth/register" class="btn btn-primary btn-lg">
+            <i class="fas fa-rocket"></i>
+            شروع کنید
+        </a>
+    </div>
+</div>
+{% endblock %}

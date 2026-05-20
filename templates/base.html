@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BeautyNet - شبکه اجتماعی پزشکی زیبایی{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-spa"></i>
+                <span>BeautyNet</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>خانه</span>
+                </a>
+                <a href="/explore" class="nav-link">
+                    <i class="fas fa-compass"></i>
+                    <span>اکسپلور</span>
+                </a>
+                <a href="/appointments" class="nav-link">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>نوبت‌ها</span>
+                </a>
+                <a href="/profile" class="nav-link" id="profileLink">
+                    <i class="fas fa-user"></i>
+                    <span>پروفایل</span>
+                </a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <div class="user-menu" id="userMenu">
+                    <button class="btn-icon" id="userMenuBtn">
+                        <img src="/static/images/default-avatar.png" alt="User" class="avatar-sm" id="navAvatar">
+                    </button>
+                    
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="/profile" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            پروفایل من
+                        </a>
+                        <a href="/settings" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            تنظیمات
+                        </a>
+                        <hr>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            خروج
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+        // Navigation toggle for mobile
+        document.getElementById('navToggle')?.addEventListener('click', () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // User menu dropdown
+        document.getElementById('userMenuBtn')?.addEventListener('click', () => {
+            document.getElementById('userDropdown').classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById('userDropdown')?.classList.remove('active');
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await logout();
+        });
+    </script>
+</body>
+</html>

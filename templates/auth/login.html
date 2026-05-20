@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}ورود - BeautyNet{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="fas fa-spa"></i>
+            <h1>ورود به BeautyNet</h1>
+            <p>به شبکه اجتماعی پزشکی زیبایی خوش آمدید</p>
+        </div>
+        
+        <form id="loginForm" class="auth-form">
+            <div class="form-group">
+                <label for="username">
+                    <i class="fas fa-user"></i>
+                    نام کاربری
+                </label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-control" 
+                    placeholder="نام کاربری خود را وارد کنید"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i>
+                    رمز عبور
+                </label>
+                <div class="password-input">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-control" 
+                        placeholder="رمز عبور خود را وارد کنید"
+                        required
+                    >
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group form-check">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">مرا به خاطر بسپار</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-sign-in-alt"></i>
+                ورود
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>حساب کاربری ندارید؟ <a href="/auth/register">ثبت‌نام کنید</a></p>
+            <a href="/auth/forgot-password" class="forgot-link">رمز عبور را فراموش کرده‌اید؟</a>
+        </div>
+    </div>
+    
+    <div class="auth-illustration">
+        <div class="illustration-content">
+            <i class="fas fa-user-md"></i>
+            <h2>به جامعه پزشکی زیبایی بپیوندید</h2>
+            <ul>
+                <li><i class="fas fa-check"></i> دسترسی به بهترین پزشکان</li>
+                <li><i class="fas fa-check"></i> نوبت‌دهی آسان و سریع</li>
+                <li><i class="fas fa-check"></i> مشاهده نتایج واقعی</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Login form submission
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        showLoading();
+        
+        try {
+            const response = await fetch('/api/accounts/auth/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                showToast('ورود موفقیت‌آمیز بود', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = '/profile';
+                }, 1000);
+            } else {
+                showToast(data.error || 'خطا در ورود', 'error');
+            }
+        } catch (error) {
+            showToast('خطا در برقراری ارتباط با سرور', 'error');
+        } finally {
+            hideLoading();
+        }
+    });
+</script>
+{% endblock %}
