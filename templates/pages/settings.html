@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}تنظیمات - BeautyNet{% endblock %}
+
+{% block body_class %}settings-page-body{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/bn-design-system.css' %}">
+<link rel="stylesheet" href="{% static 'css/bn-screens-shared.css' %}">
+<link rel="stylesheet" href="{% static 'css/settings.css' %}?v=20260526-2306">
+<link rel="stylesheet" href="{% static 'css/location-maps.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header lux-page-header container bn-page-hero">
+    <p class="bn-eyebrow">حساب شما</p>
+    <h1 class="bn-title-display">تنظیمات</h1>
+    <p class="bn-body">حساب، امنیت، کیف پول و اعلان‌ها</p>
+</div>
+
+<div class="container settings-layout">
+    <nav class="settings-nav glass-card">
+        <button type="button" class="settings-nav-btn active" data-panel="panelAccount">
+            <i class="fas fa-user"></i> حساب کاربری
+        </button>
+        <button type="button" class="settings-nav-btn" data-panel="panelWallet">
+            <i class="fas fa-wallet"></i> کیف پول
+        </button>
+        <button type="button" class="settings-nav-btn" data-panel="panelNotifications">
+            <i class="fas fa-bell"></i> اعلان‌ها
+        </button>
+        <button type="button" class="settings-nav-btn hidden" id="doctorSettingsNav" data-panel="panelDoctor">
+            <i class="fas fa-user-md"></i> پروفایل پزشک
+        </button>
+        <button type="button" class="settings-nav-btn hidden" id="clinicSettingsNav" data-panel="panelClinic">
+            <i class="fas fa-hospital"></i> پروفایل کلینیک
+        </button>
+        <button type="button" class="settings-nav-btn hidden" id="locationSettingsNav" data-panel="panelLocation">
+            <i class="fas fa-map-marker-alt"></i> موقعیت روی نقشه
+        </button>
+        <button type="button" class="settings-nav-btn" data-panel="panelSecurity">
+            <i class="fas fa-shield-alt"></i> امنیت
+        </button>
+        <button type="button" class="settings-nav-btn" data-panel="panelPrivacy">
+            <i class="fas fa-lock"></i> حریم خصوصی
+        </button>
+    </nav>
+
+    <div class="settings-panels">
+        <!-- Account -->
+        <section id="panelAccount" class="settings-panel active">
+            <form id="settingsForm" class="settings-card glass-card">
+                <h2><i class="fas fa-id-card"></i> اطلاعات شخصی</h2>
+                <p class="card-desc">نام، تماس، آواتار و بیوگرافی</p>
+
+                <div class="settings-avatar-row">
+                    <img src="/static/images/default-avatar.svg" alt="" id="settingsAvatarPreview" class="settings-avatar-preview">
+                    <div>
+                        <label class="btn btn-outline btn-sm" for="settingsAvatarInput">
+                            <i class="fas fa-camera"></i> تغییر عکس
+                        </label>
+                        <input type="file" id="settingsAvatarInput" accept="image/*" hidden>
+                        <p class="hint-text">JPG یا PNG — حداکثر ۱۰ مگابایت. عکس بعد از انتخاب به‌صورت خودکار ذخیره می‌شود.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>نام و نام خانوادگی</label>
+                    <input type="text" id="settingsFullname" class="form-control">
+                </div>
+                <div class="settings-grid-2">
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="email" id="settingsEmail" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>موبایل</label>
+                        <input type="tel" id="settingsPhone" class="form-control" placeholder="09xxxxxxxxx">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>بیوگرافی</label>
+                    <textarea id="settingsBio" class="form-control" rows="4" maxlength="500"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+            </form>
+        </section>
+
+        <!-- Wallet -->
+        <section id="panelWallet" class="settings-panel">
+            <div class="settings-card glass-card wallet-card">
+                <h2><i class="fas fa-wallet"></i> کیف پول</h2>
+                <p class="card-desc">موجودی برای پرداخت سریع نوبت‌ها</p>
+                <div class="wallet-balance-box">
+                    <span class="wallet-label">موجودی</span>
+                    <strong id="walletBalance">۰</strong>
+                    <span class="wallet-unit">تومان</span>
+                </div>
+                <form id="walletDepositForm" class="wallet-deposit-form">
+                    <label>شارژ کیف پول</label>
+                    <div class="wallet-deposit-row">
+                        <input type="number" id="walletDepositAmount" class="form-control" min="10000" step="10000" placeholder="مثال: 500000">
+                        <button type="submit" class="btn btn-primary">شارژ</button>
+                    </div>
+                    <p class="hint-text">حداقل ۱۰٬۰۰۰ — در حالت آزمایشی فوری شارژ می‌شود</p>
+                </form>
+            </div>
+            <div class="settings-card glass-card">
+                <h3><i class="fas fa-receipt"></i> تراکنش‌های اخیر</h3>
+                <div id="walletTransactions" class="wallet-transactions">
+                    <p class="text-muted">در حال بارگذاری...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notifications prefs -->
+        <section id="panelNotifications" class="settings-panel">
+            <form id="notifPrefsForm" class="settings-card glass-card">
+                <h2><i class="fas fa-bell"></i> تنظیمات اعلان</h2>
+                <p class="card-desc">انتخاب کنید چه اعلان‌هایی دریافت کنید</p>
+                <div class="toggle-list">
+                    <label class="toggle-row"><span>لایک پست‌ها</span><input type="checkbox" id="prefLikes" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>نظرات</span><input type="checkbox" id="prefComments" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>فالوور جدید</span><input type="checkbox" id="prefFollows" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>پیام‌های چت</span><input type="checkbox" id="prefMessages" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>نوبت‌ها</span><input type="checkbox" id="prefAppointments" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>نظرات پزشک</span><input type="checkbox" id="prefReviews" checked><span class="toggle-slider"></span></label>
+                    <label class="toggle-row"><span>پیام سیستم و کیف پول</span><input type="checkbox" id="prefSystem" checked><span class="toggle-slider"></span></label>
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره تنظیمات اعلان</button>
+            </form>
+        </section>
+
+        <!-- Doctor -->
+        <section id="panelDoctor" class="settings-panel">
+            <form id="doctorSettingsForm" class="settings-card glass-card">
+                <h2><i class="fas fa-stethoscope"></i> پروفایل حرفه‌ای</h2>
+                <p class="card-desc">اطلاعات تخصص و کلینیک</p>
+                <div class="doctor-layout-picker" role="radiogroup" aria-label="حالت نمایش عمومی پروفایل">
+                    <label class="doctor-layout-option">
+                        <input type="radio" name="doctorProfileLayout" value="classic" id="doctorLayoutClassic" checked>
+                        <span class="doctor-layout-preview doctor-layout-preview--classic">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                        <strong>کلاسیک فعلی</strong>
+                        <small>حالت پیش‌فرض سایت با تب‌ها، گالری و رزرو کامل.</small>
+                    </label>
+                    <label class="doctor-layout-option doctor-layout-option--premium">
+                        <input type="radio" name="doctorProfileLayout" value="luxury_editorial" id="doctorLayoutLuxury">
+                        <span class="doctor-layout-preview doctor-layout-preview--luxury">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                        </span>
+                        <strong>لوکس تصویری</strong>
+                        <small>نمای پرمیوم با عکس بزرگ، معرفی برندگونه و رزرو برجسته مثل کلینیک‌های لاکچری.</small>
+                    </label>
+                </div>
+                <div class="settings-grid-2">
+                    <div class="form-group">
+                        <label>تخصص</label>
+                        <select id="doctorSpecialty" class="specialty-select">
+                            <option value="skin">پوست و مو</option>
+                            <option value="nose">بینی</option>
+                            <option value="face">زیبایی صورت</option>
+                            <option value="body">زیبایی بدن</option>
+                            <option value="dental">دندانپزشکی زیبایی</option>
+                            <option value="hair">کاشت مو</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره نظام پزشکی</label>
+                        <input type="text" id="doctorLicense" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="settings-grid-2">
+                    <div class="form-group">
+                        <label>سال‌های تجربه</label>
+                        <input type="number" id="doctorExperience" class="form-control" min="0" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label>هزینه ویزیت (تومان)</label>
+                        <input type="number" id="doctorFee" class="form-control" min="0" step="10000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>نام کلینیک / مطب</label>
+                    <input type="text" id="doctorClinic" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره پروفایل</button>
+            </form>
+        </section>
+
+        <!-- Clinic -->
+        <section id="panelClinic" class="settings-panel">
+            <form id="clinicSettingsForm" class="settings-card glass-card">
+                <h2><i class="fas fa-hospital"></i> پروفایل کلینیک</h2>
+                <div class="form-group">
+                    <label>نام رسمی</label>
+                    <input type="text" id="clinicOfficialName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>خدمات</label>
+                    <textarea id="clinicServices" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>وب‌سایت</label>
+                    <input type="url" id="clinicWebsite" class="form-control" placeholder="https://">
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره</button>
+            </form>
+        </section>
+
+        <!-- Location -->
+        <section id="panelLocation" class="settings-panel">
+            <form id="locationSettingsForm" class="settings-card glass-card">
+                <h2><i class="fas fa-location-dot"></i> <span id="locationPanelTitle">موقعیت مطب</span></h2>
+                <div class="location-privacy-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>آدرس دقیق پس از رزرو نوبت برای بیمار نمایش داده می‌شود.</span>
+                </div>
+                <div class="form-group">
+                    <label>شهر</label>
+                    <input type="text" id="locCity" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>آدرس کامل</label>
+                    <textarea id="locAddress" class="form-control" rows="3"></textarea>
+                </div>
+                <input type="hidden" id="locLat">
+                <input type="hidden" id="locLng">
+                <div id="settingsLocationPicker"></div>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px">ذخیره موقعیت</button>
+            </form>
+        </section>
+
+        <!-- Security -->
+        <section id="panelSecurity" class="settings-panel">
+            <form id="passwordForm" class="settings-card glass-card">
+                <h2><i class="fas fa-key"></i> تغییر رمز عبور</h2>
+                <div class="form-group">
+                    <label>رمز فعلی</label>
+                    <input type="password" id="oldPassword" class="form-control" autocomplete="current-password">
+                </div>
+                <div class="settings-grid-2">
+                    <div class="form-group">
+                        <label>رمز جدید</label>
+                        <input type="password" id="newPassword" class="form-control" autocomplete="new-password" minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label>تکرار رمز جدید</label>
+                        <input type="password" id="newPasswordConfirm" class="form-control" autocomplete="new-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">تغییر رمز</button>
+            </form>
+            <div class="settings-card glass-card danger-zone">
+                <h3><i class="fas fa-sign-out-alt"></i> خروج از حساب</h3>
+                <p class="card-desc">از همه دستگاه‌ها خارج می‌شوید</p>
+                <button type="button" class="btn btn-outline" id="settingsLogout">خروج</button>
+            </div>
+        </section>
+
+        <!-- Privacy -->
+        <section id="panelPrivacy" class="settings-panel">
+            <form id="privacyForm" class="settings-card glass-card">
+                <h2><i class="fas fa-user-shield"></i> حریم خصوصی</h2>
+                <div class="toggle-list">
+                    <label class="toggle-row">
+                        <span>پروفایل خصوصی</span>
+                        <input type="checkbox" id="prefPrivateProfile">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="toggle-row">
+                        <span>خلاصه هفتگی ایمیل</span>
+                        <input type="checkbox" id="prefEmailDigest">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره</button>
+            </form>
+            <div class="settings-card glass-card">
+                <h3><i class="fas fa-file-contract"></i> قوانین</h3>
+                <p class="card-desc"><a href="/terms/">مطالعه شرایط استفاده BeautyNet</a></p>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/maps.js' %}"></script>
+<script src="{% static 'js/location-picker.js' %}"></script>
+<script src="{% static 'js/settings.js' %}?v=20260526-2342"></script>
+{% endblock %}

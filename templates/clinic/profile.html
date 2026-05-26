@@ -1,0 +1,184 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}کلینیک - BeautyNet{% endblock %}
+
+{% block app_css %}
+<link rel="stylesheet" href="{% static 'css/location-maps.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/bn-screen-profile.css' %}?v=20260526-1720">
+{% endblock %}
+
+{% block app_content %}
+<script>document.body.classList.add('clinic-profile');document.body.dataset.profileUsername='{{ username }}';</script>
+
+<div class="bn-app-page bn-profile-page pm-page-enter clinic-profile profile-container">
+
+    <section class="bn-profile-hero iconic-profile-hero pm-reveal">
+        <div class="bn-profile-cover" aria-hidden="true">
+            <div class="bn-profile-cover-mesh"></div>
+        </div>
+        <nav class="bn-profile-nav" aria-label="عملیات پروفایل">
+            <button type="button" class="bn-profile-nav-btn" onclick="history.back()" aria-label="بازگشت">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <div class="bn-profile-nav-group" id="clinicActions"></div>
+        </nav>
+        <div class="bn-profile-card iconic-surface bn-glass--heavy">
+            <div class="bn-profile-avatar-wrap">
+                <div class="bn-profile-avatar-ring">
+                    <img id="clinicAvatar" src="{% static 'images/default-avatar.svg' %}" alt="" class="bn-profile-avatar">
+                </div>
+            </div>
+            <div class="bn-profile-identity">
+                <p class="bn-eyebrow" id="clinicCity">شهر</p>
+                <h1 class="bn-profile-name" id="clinicName">کلینیک</h1>
+                <p class="bn-profile-handle">@{{ username }}</p>
+                <div class="bn-profile-premium-proof" aria-label="مزیت‌های کلینیک">
+                    <span><i class="fas fa-hospital-user"></i> مرکز تخصصی</span>
+                    <span><i class="fas fa-user-doctor"></i> پزشکان همکار</span>
+                    <span><i class="fas fa-location-dot"></i> موقعیت و خدمات</span>
+                </div>
+                <p class="bn-profile-bio" id="clinicBio"></p>
+            </div>
+            <div class="doctor-create-bar bn-profile-actions" id="clinicCreateBar" style="display:none">
+                <button type="button" class="bn-btn bn-btn--primary" id="clinicAddPostBtn"><i class="fas fa-plus"></i> پست</button>
+                <button type="button" class="bn-btn bn-btn--ghost" id="clinicAddStoryBtn"><i class="fas fa-circle"></i> استوری</button>
+            </div>
+            <div class="bn-profile-actions" id="clinicVisitorActions" hidden>
+                <button type="button" class="bn-btn bn-btn--primary" id="clinicJoinBtn" hidden>
+                    <i class="fas fa-user-plus"></i><span>عضویت پزشک</span>
+                </button>
+                <a href="/messages/?u={{ username }}" class="bn-btn bn-btn--ghost" id="clinicMessageBtn">
+                    <i class="fas fa-comment-dots"></i><span>پیام</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="bn-profile-stats iconic-stats pm-reveal">
+        <div class="bn-profile-stat">
+            <strong id="clinicPostsCount">0</strong>
+            <span>پست</span>
+        </div>
+        <div class="bn-profile-stat">
+            <strong id="clinicDoctorsCount">0</strong>
+            <span>پزشک</span>
+        </div>
+        <div class="bn-profile-stat">
+            <strong id="clinicFollowersCount">0</strong>
+            <span>فالوور</span>
+        </div>
+    </div>
+
+    <nav class="bn-profile-tabs iconic-chips pm-reveal" aria-label="بخش‌های پروفایل">
+        <button type="button" class="bn-profile-tab tab-btn active" data-tab="posts">
+            <i class="fas fa-grip"></i><span>پست‌ها</span>
+        </button>
+        <button type="button" class="bn-profile-tab tab-btn" data-tab="services">
+            <i class="fas fa-concierge-bell"></i><span>خدمات</span>
+        </button>
+        <button type="button" class="bn-profile-tab tab-btn" data-tab="doctors">
+            <i class="fas fa-user-md"></i><span>پزشکان</span>
+        </button>
+        <button type="button" class="bn-profile-tab tab-btn" data-tab="patientRecords" id="clinicPatientRecordsTabBtn" hidden>
+            <i class="fas fa-folder-heart"></i><span>پرونده‌ها</span>
+        </button>
+        <button type="button" class="bn-profile-tab tab-btn" data-tab="location">
+            <i class="fas fa-map-marked-alt"></i><span>موقعیت</span>
+        </button>
+    </nav>
+
+    <main class="bn-profile-content">
+        <div class="bn-profile-panel tab-content active" id="postsTab">
+            <div class="bn-profile-grid dp-posts-grid posts-grid-luxury" id="clinicPostsGrid"></div>
+            <div class="bn-profile-empty" id="clinicPostsEmpty" style="display:none">
+                <i class="fas fa-camera"></i>
+                <h3>هنوز پستی منتشر نشده</h3>
+                <p>نمونه کارها و استوری‌های کلینیک اینجا نمایش داده می‌شوند</p>
+            </div>
+        </div>
+
+        <div class="bn-profile-panel tab-content" id="servicesTab">
+            <div class="bn-profile-section-card">
+                <h2><i class="fas fa-concierge-bell"></i> خدمات</h2>
+                <p id="clinicServices" style="margin:0;color:var(--bn-text-2);line-height:1.7">—</p>
+            </div>
+        </div>
+
+        <div class="bn-profile-panel tab-content" id="doctorsTab">
+            <div class="bn-profile-section-card">
+                <div class="bn-profile-section-head">
+                    <div>
+                        <h2><i class="fas fa-user-md"></i> پزشکان همکار</h2>
+                        <p id="clinicDoctorsHint">پزشکانی که عضویت خود را در این کلینیک ثبت کرده‌اند.</p>
+                    </div>
+                </div>
+                <div id="clinicDoctorsList"></div>
+            </div>
+        </div>
+
+        <div class="bn-profile-panel tab-content" id="patientRecordsTab">
+            <div class="bn-profile-section-card patient-records-panel">
+                <div class="bn-profile-section-head">
+                    <div>
+                        <h2><i class="fas fa-folder-heart"></i> پرونده‌های قابل مشاهده کلینیک</h2>
+                        <p>فقط پرونده‌هایی نمایش داده می‌شوند که پزشک زیرمجموعه، اجازه نمایش آن‌ها را برای کلینیک فعال کرده باشد.</p>
+                    </div>
+                    <button type="button" class="bn-btn bn-btn--ghost" id="clinicPatientRecordsRefreshBtn">
+                        <i class="fas fa-rotate"></i> بروزرسانی
+                    </button>
+                </div>
+                <div class="patient-records-grid" id="clinicPatientRecordsList"></div>
+            </div>
+        </div>
+
+        <div class="bn-profile-panel tab-content" id="locationTab">
+            <div class="bn-profile-section-card">
+                <h2><i class="fas fa-map-marked-alt"></i> موقعیت</h2>
+                <div id="clinicLocationPanel"></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+{% include 'components/post_composer_modal.html' %}
+
+<div class="explore-modal" id="explorePostModal" aria-hidden="true">
+    <div class="explore-modal-backdrop" id="exploreModalBackdrop"></div>
+    <div class="explore-modal-dialog">
+        <button type="button" class="explore-modal-close" id="exploreModalClose" aria-label="بستن"><i class="fas fa-times"></i></button>
+        <div class="explore-modal-grid">
+            <div class="explore-modal-media" id="exploreModalMedia"></div>
+            <div class="explore-modal-panel">
+                <header class="explore-modal-author">
+                    <a href="#" id="exploreModalAuthorLink">
+                        <img src="" alt="" id="exploreModalAvatar" class="avatar-sm">
+                        <div><strong id="exploreModalAuthorName"></strong><span id="exploreModalSpecialty" class="text-muted"></span></div>
+                    </a>
+                </header>
+                <div class="explore-modal-caption" id="exploreModalCaption"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'js/before-after-slider.js' %}?v=20260526-1954" defer></script>
+<script src="{% static 'js/post-carousel.js' %}?v=20260526-0901" defer></script>
+<script src="{% static 'js/post-composer.js' %}?v=20260526-0901" defer></script>
+<script src="{% static 'js/explore.js' %}?v=20260526-2306" defer></script>
+<script src="{% static 'js/maps.js' %}?v=20260526-0901" defer></script>
+<script src="{% static 'js/clinic-profile.js' %}?v=20260526-1711" defer></script>
+<script>
+document.querySelectorAll('.bn-profile-page .tab-btn').forEach((tab) => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.bn-profile-page .tab-btn').forEach((t) => t.classList.remove('active'));
+        document.querySelectorAll('.bn-profile-page .tab-content').forEach((c) => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`${target}Tab`)?.classList.add('active');
+    });
+});
+</script>
+{% endblock %}

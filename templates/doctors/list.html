@@ -1,0 +1,24 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}پزشکان - BeautyNet{% endblock %}
+
+{% block app_content %}
+<div class="bn-app-page bn-doctors-page pm-page-enter">
+    <header class="providers-simple-header pm-reveal">
+        <h1>پزشکان زیبایی</h1>
+    </header>
+    <nav class="providers-type-tabs" id="doctorsFilters" aria-label="فیلتر نوع ارائه‌دهنده">
+        <button type="button" class="bn-pill filter-chip active" data-type="all">همه</button>
+        <button type="button" class="bn-pill filter-chip" data-type="doctors">پزشکان</button>
+        <button type="button" class="bn-pill filter-chip" data-type="clinics">کلینیک‌ها</button>
+    </nav>
+    <div id="providersList" class="lux-doctor-list"></div>
+    <div id="doctorsList" class="lux-doctor-list"></div>
+    <div id="doctorsLoader" class="iconic-loader hidden" hidden><div class="spinner"></div></div>
+</div>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'js/doctors.js' %}?v=20260527-0354" defer></script>
+{% endblock %}

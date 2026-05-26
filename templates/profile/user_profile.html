@@ -1,19 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}پروفایل - BeautyNet{% endblock %}
 
+{% block body_class %}profile-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/bn-design-system.css' %}">
+<link rel="stylesheet" href="{% static 'css/bn-screens-shared.css' %}">
+<link rel="stylesheet" href="{% static 'css/profiles.css' %}?v=20260526-2306">
+{% endblock %}
+
 {% block content %}
+{% if username %}
+<script>document.body.dataset.profileUsername = '{{ username }}';</script>
+{% endif %}
 <div class="profile-container">
     <!-- Profile Header -->
-    <div class="profile-header">
+    <div class="profile-header profile-header-luxury animate-in">
         <div class="container">
-            <div class="profile-info">
+            <div class="profile-info profile-hero-row">
                 <div class="profile-avatar-section">
                     <div class="avatar-wrapper">
-                        <img src="/static/images/default-avatar.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+                        <img src="/static/images/default-avatar.svg" alt="Profile" class="profile-avatar profile-avatar-luxury" id="profileAvatar">
                         <button class="avatar-edit-btn" id="avatarEditBtn">
                             <i class="fas fa-camera"></i>
                         </button>
+                        <input type="file" id="profileAvatarInput" accept="image/*" hidden>
                     </div>
                 </div>
                 
@@ -25,9 +38,9 @@
                                 <i class="fas fa-edit"></i>
                                 ویرایش پروفایل
                             </button>
-                            <button class="btn btn-icon">
+                            <a href="/settings/" class="btn btn-icon" title="تنظیمات">
                                 <i class="fas fa-cog"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     
@@ -56,7 +69,7 @@
     </div>
     
     <!-- Profile Tabs -->
-    <div class="profile-tabs">
+    <div class="profile-tabs profile-tabs-luxury">
         <div class="container">
             <div class="tabs-nav">
                 <button class="tab-btn active" data-tab="posts">
@@ -143,7 +156,7 @@
             <div class="form-group">
                 <label for="editBio">بیوگرافی</label>
                 <textarea id="editBio" class="form-control" rows="4" placeholder="درباره خود بنویسید..."></textarea>
-                <small class="form-text"><span id="bioCount">0</span>/150 کاراکتر</small>
+                <small class="form-text"><span id="bioCount">0</span>/500 کاراکتر</small>
             </div>
             
             <div class="form-group">
@@ -202,7 +215,7 @@
             <div class="post-info-section">
                 <div class="post-header">
                     <div class="post-author">
-                        <img src="/static/images/default-avatar.png" alt="Author" class="avatar-sm">
+                        <img src="/static/images/default-avatar.svg" alt="Author" class="avatar-sm">
                         <span class="author-name" id="postAuthorName">username</span>
                     </div>
                     <button class="btn-icon">
@@ -250,5 +263,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="/static/js/profile.js"></script>
+<script src="{% static 'js/profile.js' %}?v=20260526-2342"></script>
 {% endblock %}

@@ -1,64 +1,118 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="theme-color" content="#F8F7F4">
+    <meta name="beautynet-build" content="20260527-0434">
+    <script>
+        (function () {
+            var stored = localStorage.getItem('bn-theme');
+            var theme = stored === 'dark' || stored === 'light' ? stored : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.colorScheme = theme;
+            var build = '20260527-0434';
+            if (localStorage.getItem('bn-build') !== build) {
+                localStorage.setItem('bn-build', build);
+                if (window.caches) caches.keys().then(function (keys) {
+                    return Promise.all(keys.map(function (key) { return caches.delete(key); }));
+                }).catch(function () {});
+            }
+        })();
+    </script>
+    <link rel="manifest" href="{% static 'manifest.json' %}?v=20260526-1944">
     <title>{% block title %}BeautyNet - شبکه اجتماعی پزشکی زیبایی{% endblock %}</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style.css">
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="{% static 'css/fa-fallback.css' %}?v=20260526-1823">
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/design-tokens.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/bn-design-system.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/bn-screens-shared.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/beautynet.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/luxury-ui.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/lux-pages.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/bn-lux-bundle.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/modal-premium.css' %}?v=20260526-0901">
+    <link rel="stylesheet" href="{% static 'css/post-media.css' %}?v=20260526-0901">
+    {% endblock %}
     {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/bn-stability.css' %}?v=20260527-0434">
+    <link rel="stylesheet" href="{% static 'css/beautynet-brand-theme.css' %}?v=20260527-0434">
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+<body class="{% block body_class %}{% endblock %}">
+    <div class="bn-ambient" aria-hidden="true">
+        <div class="bn-aurora"></div>
+        <div class="bn-mesh"></div>
+        <div class="bn-orb bn-orb--1"></div>
+        <div class="bn-orb bn-orb--2"></div>
+        <div class="bn-orb bn-orb--3"></div>
+    </div>
+    <div class="bn-vignette" aria-hidden="true"></div>
+    <div class="bn-grain" aria-hidden="true"></div>
+    <nav class="navbar navbar--premium" id="navbar">
         <div class="container">
-            <div class="nav-brand">
+            <a href="/" class="nav-brand">
                 <i class="fas fa-spa"></i>
                 <span>BeautyNet</span>
-            </div>
-            
+            </a>
+
             <div class="nav-menu" id="navMenu">
-                <a href="/" class="nav-link">
+                <a href="/feed/" class="nav-link">
                     <i class="fas fa-home"></i>
                     <span>خانه</span>
                 </a>
-                <a href="/explore" class="nav-link">
+                <a href="/explore/" class="nav-link">
                     <i class="fas fa-compass"></i>
                     <span>اکسپلور</span>
                 </a>
-                <a href="/appointments" class="nav-link">
+                <a href="/appointments/" class="nav-link">
                     <i class="fas fa-calendar-check"></i>
                     <span>نوبت‌ها</span>
                 </a>
-                <a href="/profile" class="nav-link" id="profileLink">
-                    <i class="fas fa-user"></i>
-                    <span>پروفایل</span>
-                </a>
             </div>
-            
-            <div class="nav-actions">
-                <button class="btn-icon" id="notificationBtn">
+
+            <div class="nav-actions nav-guest" id="navGuest">
+                <button type="button" class="btn-icon" data-theme-toggle title="تم"><i class="fas fa-moon"></i></button>
+                <a href="/login/" class="btn btn-outline btn-sm">ورود</a>
+                <a href="/register/" class="btn btn-primary btn-sm">ثبت‌نام</a>
+            </div>
+
+            <div class="nav-actions nav-authed" id="navAuthed" style="display: none;">
+                <button type="button" class="btn-icon" data-theme-toggle title="تم"><i class="fas fa-moon"></i></button>
+                <a href="/appointments/" class="btn-icon" title="نوبت‌ها" id="topAppointmentsBtn">
+                    <i class="fas fa-calendar-check"></i>
+                </a>
+                <a href="/notifications/" class="btn-icon has-badge" title="اعلان‌ها" id="notificationBtn">
                     <i class="fas fa-bell"></i>
-                    <span class="badge">3</span>
+                    <span class="notif-badge" data-notif-badge hidden>0</span>
+                </a>
+                <a href="/settings/" class="btn-icon" title="تنظیمات" id="topSettingsBtn">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <button type="button" class="btn-icon" title="خروج از حساب" id="topLogoutBtn" aria-label="خروج از حساب">
+                    <i class="fas fa-right-from-bracket"></i>
                 </button>
-                
                 <div class="user-menu" id="userMenu">
-                    <button class="btn-icon" id="userMenuBtn">
-                        <img src="/static/images/default-avatar.png" alt="User" class="avatar-sm" id="navAvatar">
+                    <button class="btn-icon" id="userMenuBtn" type="button" aria-label="منوی کاربر">
+                        <img src="{% static 'images/default-avatar.svg' %}" alt="User" class="avatar-sm" id="navAvatar">
                     </button>
-                    
                     <div class="dropdown-menu" id="userDropdown">
-                        <a href="/profile" class="dropdown-item">
+                        <a href="/profile/" class="dropdown-item">
                             <i class="fas fa-user"></i>
                             پروفایل من
                         </a>
-                        <a href="/settings" class="dropdown-item">
+                        <a href="/settings/" class="dropdown-item">
                             <i class="fas fa-cog"></i>
                             تنظیمات
                         </a>
@@ -70,57 +124,196 @@
                     </div>
                 </div>
             </div>
-            
-            <button class="nav-toggle" id="navToggle">
-                <i class="fas fa-bars"></i>
+
+            <button class="nav-toggle lux-menu-trigger" id="navToggle" type="button" aria-label="باز کردن منوی بیشتر" aria-controls="luxMenuPanel" aria-expanded="false">
+                <i class="fas fa-ellipsis-vertical"></i>
             </button>
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <div class="lux-menu-backdrop" id="luxMenuBackdrop" hidden></div>
+    <aside class="lux-menu-panel" id="luxMenuPanel" aria-hidden="true" aria-label="منوی اصلی BeautyNet" hidden>
+        <div class="lux-menu-topline"></div>
+        <div class="lux-menu-head">
+            <div>
+                <span class="lux-menu-kicker">BeautyNet</span>
+                <strong>منوی اصلی</strong>
+                <small>دسترسی سریع به همه بخش‌های پلتفرم</small>
+            </div>
+            <button type="button" class="lux-menu-close" id="luxMenuClose" aria-label="بستن منو">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+        <div class="lux-menu-grid" role="navigation">
+            <a href="/feed/" class="lux-menu-item">
+                <span class="lux-menu-icon"><i class="fas fa-house-chimney"></i></span>
+                <span><strong>خانه</strong><small>فید و پست‌های جدید</small></span>
+            </a>
+            <a href="/explore/" class="lux-menu-item">
+                <span class="lux-menu-icon"><i class="fas fa-compass"></i></span>
+                <span><strong>اکسپلور</strong><small>کشف نمونه‌کارها و ترندها</small></span>
+            </a>
+            <a href="/search/" class="lux-menu-item">
+                <span class="lux-menu-icon"><i class="fas fa-magnifying-glass"></i></span>
+                <span><strong>جستجو</strong><small>شهر، تخصص، پزشک و کلینیک</small></span>
+            </a>
+            <a href="/doctors/" class="lux-menu-item">
+                <span class="lux-menu-icon"><i class="fas fa-user-doctor"></i></span>
+                <span><strong>پزشکان و کلینیک‌ها</strong><small>پروفایل متخصصان و مراکز زیبایی</small></span>
+            </a>
+            <a href="/appointments/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-calendar-check"></i></span>
+                <span><strong>نوبت‌ها</strong><small>رزروها و زمان‌های ثبت‌شده</small></span>
+            </a>
+            <a href="/messages/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-comments"></i></span>
+                <span><strong>چت‌ها</strong><small>پیام‌ها و مشاوره‌ها</small></span>
+            </a>
+            <a href="/saved/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-bookmark"></i></span>
+                <span><strong>ذخیره‌شده‌ها</strong><small>پست‌هایی که نگه داشته‌اید</small></span>
+            </a>
+            <a href="/notifications/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-bell"></i></span>
+                <span><strong>اعلان‌ها</strong><small>پیام، نوبت و فعالیت‌ها</small></span>
+            </a>
+            <a href="/settings/#panelWallet" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-wallet"></i></span>
+                <span><strong>کیف پول</strong><small>موجودی و تراکنش‌ها</small></span>
+            </a>
+            <a href="/settings/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-sliders"></i></span>
+                <span><strong>تنظیمات</strong><small>حساب، امنیت و اعلان‌ها</small></span>
+            </a>
+            <a href="/profile/" class="lux-menu-item lux-menu-auth">
+                <span class="lux-menu-icon"><i class="fas fa-user-circle"></i></span>
+                <span><strong>پروفایل من</strong><small>نمایش و ویرایش حضور شما</small></span>
+            </a>
+            <a href="/login/" class="lux-menu-item lux-menu-guest">
+                <span class="lux-menu-icon"><i class="fas fa-right-to-bracket"></i></span>
+                <span><strong>ورود</strong><small>ادامه با حساب کاربری</small></span>
+            </a>
+            <a href="/register/" class="lux-menu-item lux-menu-guest">
+                <span class="lux-menu-icon"><i class="fas fa-user-plus"></i></span>
+                <span><strong>ثبت‌نام</strong><small>شروع تجربه BeautyNet</small></span>
+            </a>
+        </div>
+        <button type="button" class="lux-menu-logout lux-menu-auth" id="luxMenuLogout">
+            <i class="fas fa-right-from-bracket"></i>
+            خروج از حساب
+        </button>
+    </aside>
+
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
+    <nav class="bottom-nav bottom-nav--luxury bottom-nav--primary global-auth-bottom-nav" aria-label="ناوبری اصلی کاربر">
+        <div class="bottom-nav-inner">
+            <a href="/feed/" class="bottom-nav-item" data-nav="feed">
+                <i class="fas fa-home"></i>
+                <span>خانه</span>
+            </a>
+            <a href="/explore/" class="bottom-nav-item bottom-nav-item--primary" data-nav="explore">
+                <i class="fas fa-sparkles"></i>
+                <span>اکسپلور</span>
+            </a>
+            <a href="/search/" class="bottom-nav-item" data-nav="search">
+                <i class="fas fa-search"></i>
+                <span>جستجو</span>
+            </a>
+            <a href="/doctors/" class="bottom-nav-item" data-nav="doctors">
+                <i class="fas fa-user-md"></i>
+                <span>پزشک‌ها</span>
+            </a>
+            <a href="/profile/" class="bottom-nav-item" data-nav="profile" id="globalBottomNavProfile">
+                <i class="far fa-user"></i>
+                <span>پروفایل</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage"></span>
     </div>
 
-    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- Scripts -->
-    <script src="/static/js/api.js"></script>
-    <script src="/static/js/auth.js"></script>
+    <script src="{% static 'js/utils.js' %}?v=20260526-1657"></script>
+    <script src="{% static 'js/auth.js' %}?v=20260526-0901"></script>
+    <script src="{% static 'js/api.js' %}?v=20260527-0354"></script>
+    <script src="{% static 'js/content-permissions.js' %}?v=20260526-0901"></script>
+    <script src="{% static 'js/theme.js' %}?v=20260527-0421"></script>
+    <script src="{% static 'js/notifications.js' %}?v=20260526-0901"></script>
+    {% block core_js %}
+    <script src="{% static 'js/bn-performance.js' %}?v=20260526-0901" defer></script>
+    {% endblock %}
     {% block extra_js %}{% endblock %}
-    
+
     <script>
-        // Navigation toggle for mobile
-        document.getElementById('navToggle')?.addEventListener('click', () => {
-            document.getElementById('navMenu').classList.toggle('active');
+        const luxMenuPanel = document.getElementById('luxMenuPanel');
+        const luxMenuBackdrop = document.getElementById('luxMenuBackdrop');
+        const luxMenuTriggers = document.querySelectorAll('[aria-controls="luxMenuPanel"]');
+        const setLuxMenuState = (open) => {
+            if (!luxMenuPanel || !luxMenuBackdrop) return;
+            luxMenuPanel.hidden = !open;
+            luxMenuBackdrop.hidden = !open;
+            luxMenuPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+            luxMenuTriggers.forEach((trigger) => trigger.setAttribute('aria-expanded', open ? 'true' : 'false'));
+            if (open) {
+                window.ModalLock?.lock();
+                setTimeout(() => document.getElementById('luxMenuClose')?.focus({ preventScroll: true }), 30);
+            } else {
+                window.ModalLock?.unlock();
+            }
+        };
+
+        luxMenuTriggers.forEach((trigger) => {
+            trigger.addEventListener('click', () => {
+                setLuxMenuState(luxMenuPanel?.hidden !== false);
+            });
+        });
+        document.getElementById('luxMenuClose')?.addEventListener('click', () => setLuxMenuState(false));
+        luxMenuBackdrop?.addEventListener('click', () => setLuxMenuState(false));
+        luxMenuPanel?.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => setLuxMenuState(false));
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && luxMenuPanel?.hidden === false) setLuxMenuState(false);
         });
 
-        // User menu dropdown
         document.getElementById('userMenuBtn')?.addEventListener('click', () => {
             document.getElementById('userDropdown').classList.toggle('active');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.user-menu')) {
                 document.getElementById('userDropdown')?.classList.remove('active');
             }
         });
 
-        // Logout
         document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
             e.preventDefault();
             await logout();
         });
+
+        document.getElementById('luxMenuLogout')?.addEventListener('click', async () => {
+            setLuxMenuState(false);
+            await logout();
+        });
+
+        document.getElementById('topLogoutBtn')?.addEventListener('click', async () => {
+            if (confirm('از حساب کاربری خارج شوید؟')) await logout();
+        });
+
+        if ('serviceWorker' in navigator && window.isSecureContext) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js?v=20260527-0434').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

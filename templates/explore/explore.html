@@ -1,0 +1,84 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}اکسپلور - BeautyNet{% endblock %}
+
+{% block app_css %}
+<link rel="stylesheet" href="{% static 'css/stories.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/bn-screen-explore.css' %}?v=20260526-0901">
+{% endblock %}
+
+{% block app_content %}
+<div class="bn-app-page bn-explore-page pm-page-enter">
+
+    <header class="explore-simple-header pm-reveal">
+        <h1>اکسپلور</h1>
+    </header>
+
+    <div class="explore-app-grid iconic-bento" id="exploreMasonry"></div>
+
+    <div class="bn-empty explore-empty" id="exploreEmpty" hidden>
+        <div class="iconic-surface iconic-empty-inner">
+            <i class="fas fa-images"></i>
+            <h3>هنوز پستی نیست</h3>
+            <p>پزشکان با انتشار پست عمومی در اکسپلور نمایش داده می‌شوند</p>
+        </div>
+    </div>
+
+    <div id="exploreLoader" class="hidden iconic-loader" hidden><div class="spinner"></div></div>
+    <div id="exploreSentinel" aria-hidden="true"></div>
+</div>
+
+<div class="explore-modal iconic-modal bn-modal-immersive" id="explorePostModal" aria-hidden="true">
+    <div class="explore-modal-backdrop" id="exploreModalBackdrop"></div>
+    <div class="explore-modal-dialog iconic-modal-dialog">
+        <button type="button" class="explore-modal-close" id="exploreModalClose" aria-label="بستن">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="explore-modal-grid">
+            <div class="explore-modal-media" id="exploreModalMedia" role="img" aria-label="رسانه پست"></div>
+            <div class="explore-modal-panel">
+                <header class="explore-modal-author">
+                    <a href="#" id="exploreModalAuthorLink">
+                        <img src="" alt="" id="exploreModalAvatar" class="avatar-sm">
+                        <div>
+                            <strong id="exploreModalAuthorName"></strong>
+                            <span id="exploreModalSpecialty" class="text-muted"></span>
+                        </div>
+                    </a>
+                    <a href="#" class="bn-btn bn-btn--primary btn btn-primary btn-sm" id="exploreModalBookBtn">
+                        <i class="fas fa-calendar-check"></i> نوبت
+                    </a>
+                </header>
+                <div class="explore-modal-caption" id="exploreModalCaption"></div>
+                <div class="explore-modal-comments" id="exploreModalComments"></div>
+                <footer class="explore-modal-actions">
+                    <div class="action-row">
+                        <button type="button" class="bn-icon-btn btn-icon" id="exploreModalLike" aria-label="لایک">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button type="button" class="bn-icon-btn btn-icon" id="exploreModalSave" aria-label="ذخیره">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                        <button type="button" class="bn-icon-btn btn-icon" id="exploreModalShare" aria-label="اشتراک‌گذاری">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                        <span class="likes-line"><span id="exploreModalLikes">0</span> لایک</span>
+                        <span class="comments-line"><span id="exploreModalCommentsCount">0</span> نظر</span>
+                    </div>
+                    <div class="comment-form" id="exploreCommentForm">
+                        <input type="text" id="exploreCommentInput" placeholder="نظر بنویسید..." disabled>
+                        <button type="button" class="btn-text" id="exploreCommentSubmit" disabled>ارسال</button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'js/before-after-slider.js' %}?v=20260526-1954" defer></script>
+<script src="{% static 'js/post-carousel.js' %}?v=20260526-0901" defer></script>
+<script src="{% static 'js/explore.js' %}?v=20260527-0354" defer></script>
+{% endblock %}

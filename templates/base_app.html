@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}app-shell{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/design-tokens.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/bn-design-system.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/bn-screens-shared.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/theme.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/beautynet.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/luxury-ui.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/lux-pages.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/bn-lux-bundle.css' %}?v=20260526-0901" media="(hover: hover) and (min-width: 768px)">
+<link rel="stylesheet" href="{% static 'css/modal-premium.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/post-media.css' %}?v=20260526-0901">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=20260526-0901">
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking-widget.css' %}?v=20260526-0901">
+{% block app_css %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+{% include 'components/app_shell.html' %}
+{% block app_content %}{% endblock %}
+{% endblock %}
+
+{% block core_js %}
+<script src="{% static 'js/bn-performance.js' %}?v=20260526-0901" defer></script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/app-shell.js' %}?v=20260527-0434" defer></script>
+{% block app_js %}{% endblock %}
+{% endblock %}

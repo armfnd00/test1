@@ -1,0 +1,36 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+{% block title %}جستجو - BeautyNet{% endblock %}
+
+{% block app_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}?v=20260526-0901">
+{% endblock %}
+
+{% block app_content %}
+<div class="bn-app-page bn-search-page pm-page-enter">
+    <section class="smart-search-panel pm-reveal">
+        <div class="search-mode-actions" id="smartSearchChips" aria-label="نوع جستجو">
+            <button type="button" data-mode="service" data-placeholder="نام خدمات را بنویسید؛ مثلا بوتاکس یا کاشت مو">
+                <i class="fas fa-wand-magic-sparkles"></i>
+                <span>جستجوی خدمات</span>
+            </button>
+            <button type="button" data-mode="city" data-placeholder="نام شهر را بنویسید؛ مثلا یزد یا تهران">
+                <i class="fas fa-location-dot"></i>
+                <span>جستجوی شهر</span>
+            </button>
+        </div>
+        <div class="bn-search-bar lux-search smart-search-input">
+            <i class="fas fa-search"></i>
+            <input type="search" id="searchInput" placeholder="مثلا: پوست یزد، دکتر بینی تهران، کلینیک مو شیراز" autocomplete="off" autofocus>
+        </div>
+        <div class="smart-search-summary" id="searchSummary" hidden></div>
+    </section>
+
+    <div id="searchResults" class="lux-search-results"></div>
+</div>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'js/search.js' %}?v=20260527-0354" defer></script>
+{% endblock %}

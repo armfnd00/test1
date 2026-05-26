@@ -1,0 +1,33 @@
+{% load static %}
+
+<header class="app-header app-header--luxury">
+
+    <div class="app-header-inner">
+
+        <button type="button" class="app-header-icon app-header-icon--menu app-header-icon--lux-menu" id="appLuxMenuToggle" title="منو" aria-label="باز کردن منوی اصلی" aria-controls="luxMenuPanel" aria-expanded="false" data-label="منو">
+
+            <i class="fas fa-bars-staggered"></i>
+
+        </button>
+
+        <a href="/notifications/" class="app-header-icon app-header-icon--notifications" title="اعلان‌ها" aria-label="اعلان‌ها" data-label="اعلان">
+
+            <i class="far fa-bell"></i>
+
+            <span class="notif-badge" data-notif-badge hidden>0</span>
+
+        </a>
+
+        <a href="/feed/" class="app-brand-luxury">
+
+            <span class="app-brand-main">BeautyNet</span>
+
+            <span class="app-brand-sub">زیبایی پزشکی</span>
+
+        </a>
+
+        {% block header_actions %}{% endblock %}
+
+    </div>
+
+</header>
